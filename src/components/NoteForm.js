@@ -1,48 +1,41 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@material-ui/core";
-import TodoItem from "./TodoItem";
+import NoteItem from "./NoteItem";
 
 function TodoForm() {
   const [input, setInput] = useState("");
-  const [todoItems, setTodoItems] = useState([]);
+  const [noteItems, setNoteItems] = useState([]);
 
   const moveUp = (index) => {
-    if (index !== 0 && todoItems.length > 1) {
-      const tempArr = [...todoItems];
+    if (index !== 0 && noteItems.length > 1) {
+      const tempArr = [...noteItems];
       let temp = tempArr[index - 1];
       tempArr[index - 1] = tempArr[index];
       tempArr[index] = temp;
-      setTodoItems(tempArr);
+      setNoteItems(tempArr);
     }
   };
 
   const moveDown = (index) => {
-    if (index !== todoItems.length - 1 && todoItems.length > 1) {
-      const tempArr = [...todoItems];
+    if (index !== noteItems.length - 1 && noteItems.length > 1) {
+      const tempArr = [...noteItems];
       let temp = tempArr[index + 1];
       tempArr[index + 1] = tempArr[index];
       tempArr[index] = temp;
-      setTodoItems(tempArr);
+      setNoteItems(tempArr);
     }
   };
 
   const removeTodo = (index) => {
-    const tempArr = [...todoItems];
+    const tempArr = [...noteItems];
     tempArr.splice(index, 1);
-    setTodoItems(tempArr);
+    setNoteItems(tempArr);
   };
 
   const editTodo = (index, value) => {
-    const tempArr = [...todoItems];
+    const tempArr = [...noteItems];
     tempArr[index] = value;
-    setTodoItems(tempArr);
-  };
-
-  const markComplete = (index) => {
-    const tempArr = [...todoItems];
-    //tempArr[index] = tempArr[index].strike();
-    tempArr[index] = "Done!";
-    setTodoItems(tempArr);
+    setNoteItems(tempArr);
   };
 
   const formChanged = (event) => {
@@ -53,8 +46,8 @@ function TodoForm() {
   //https://stackoverflow.com/questions/54676966/push-method-in-react-hooks-usestate
   const addToList = () => {
     if (input) {
-      setTodoItems([...todoItems, input]);
-      console.log(todoItems);
+      setNoteItems([...noteItems, input]);
+      console.log(noteItems);
       setInput("");
     }
   };
@@ -75,12 +68,12 @@ function TodoForm() {
     >
       <div style={{ display: "flex" }}>
         <TextField
-          placeholder="enter a todo list item"
+          placeholder="enter a note"
           variant="outlined"
           multiline={true}
           value={input}
           // type="text"
-          fullWidth
+          style={{ width: "100%" }}
           onChange={formChanged}
           //when press enter -> do some function
           //Credit: https://stackoverflow.com/questions/43384039/how-to-get-input-textfield-values-when-enter-key-is-pressed-in-react-js
@@ -101,19 +94,18 @@ function TodoForm() {
         }}
       > */}
         <Button variant="contained" onClick={addToList}>
-          Add Todo Item
+          Add Note
         </Button>
       </div>
       {/* </div> */}
       <div>
-        {todoItems.map((val, index) => {
+        {noteItems.map((val, index) => {
           return (
-            <TodoItem
+            <NoteItem
               index={index}
               item={val}
               moveUp={moveUp}
               moveDown={moveDown}
-              markComplete={markComplete}
               removeTodo={removeTodo}
               editTodo={editTodo}
             />
